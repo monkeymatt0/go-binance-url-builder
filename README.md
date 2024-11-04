@@ -1,2 +1,5 @@
-# go-binance-url-solver
-This is a package for go that will solve the URL related to binance, implemented endpoint URL will be listed in the readme
+# go-binance-url-builder
+
+This package is primarly used for another private projects, so it will implement first the URL needed in that project.
+
+The goal of this package is to return a string with the correct endpoint to call (for now).
