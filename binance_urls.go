@@ -2,7 +2,8 @@ package go_binance_url_builder
 
 const (
 	//protocol
-	PROTOCOL = "https"
+	SECURE_HTTP       = "https"
+	SECURE_WEB_SOCKET = "wss"
 
 	// keys
 	PRODUCTION = "production"
