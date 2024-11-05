@@ -7,9 +7,13 @@ type BinanceURLBuilder struct {
 	host     string
 }
 
-func (bub *BinanceURLBuilder) New(isWebSocket bool, mode string) {
+func (bub *BinanceURLBuilder) New(isWebSocket bool, mode string) error {
 	bub.SetProtocol(isWebSocket)
-	bub.setHost(mode)
+	err := bub.setHost(mode)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (bub *BinanceURLBuilder) SetProtocol(isWebSocket bool) {
@@ -29,11 +33,9 @@ func (bub *BinanceURLBuilder) setHost(mode string) error {
 	case TEST:
 		bub.host = strings.Join([]string{TEST_HOST}, "/")
 		return nil
-	case "default":
-		return &ModeError{}
+	default:
+		return ModeError
 	}
-
-	return &GetHostSwitchFailedError{} // This should never happen
 }
 
 func (bub *BinanceURLBuilder) GetBaseURL() string {
