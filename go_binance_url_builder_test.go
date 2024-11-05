@@ -6,10 +6,11 @@ import (
 )
 
 const (
-	baseURLTestHTTP = "https://testnet.binance.vision"
-	baseURLTestWSS  = "wss://testnet.binance.vision"
+	baseURLTestHTTP = "https://testnet.binance.vision/api"
+	baseURLTestWSS  = "wss://ws-api.testnet.binance.vision/ws-api/v3"
 )
 
+// Testnet test
 // Testing URL for HTTP request
 func TestBaseURLSuccessHTTP(t *testing.T) {
 	binanceURLBuilder := &BinanceURLBuilder{}
@@ -19,8 +20,8 @@ func TestBaseURLSuccessHTTP(t *testing.T) {
 		t.Errorf("Error when setting the host: %v\n", err)
 	}
 
-	if binanceURLBuilder.GetBaseURL() != baseURLTestHTTP {
-		t.Errorf("BaseURL has not been well built want: %s, got: %s", baseURLTestHTTP, binanceURLBuilder.GetBaseURL())
+	if binanceURLBuilder.GetBaseURLHTTP() != baseURLTestHTTP {
+		t.Errorf("BaseURL has not been well built want: %s, got: %s", baseURLTestHTTP, binanceURLBuilder.GetBaseURLHTTP())
 	}
 }
 
@@ -36,14 +37,14 @@ func TestBaseURLFailHTTP(t *testing.T) {
 // Testing base URL for web socket
 func TestBaseURLSuccessWSS(t *testing.T) {
 	binanceURLBuilder := &BinanceURLBuilder{}
-	err := binanceURLBuilder.New(true, TEST)
+	err := binanceURLBuilder.New(true, TEST_WSS)
 
 	if err != nil {
 		t.Errorf("Error when setting the host: %v\n", err)
 	}
 
-	if binanceURLBuilder.GetBaseURL() != baseURLTestWSS {
-		t.Errorf("BaseURL has not been well built want: %s, got: %s", baseURLTestWSS, binanceURLBuilder.GetBaseURL())
+	if binanceURLBuilder.GetBaseURLWSS() != baseURLTestWSS {
+		t.Errorf("BaseURL has not been well built want: %s, got: %s", baseURLTestWSS, binanceURLBuilder.GetBaseURLWSS())
 	}
 }
 
