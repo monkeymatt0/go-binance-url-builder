@@ -43,7 +43,7 @@ const (
 	ACCOUNT = "account"
 
 	// MVP needed - Channels
-	btcusdt = "btcusdt@depth5@100ms"
-	ethbtc  = "ethbtc@depth5@100ms"
-	ethusdt = "ethusdt@depth5@100ms"
+	Btcusdt = "btcusdt@depth5@100ms"
+	Ethbtc  = "ethbtc@depth5@100ms"
+	Ethusdt = "ethusdt@depth5@100ms"
 )
