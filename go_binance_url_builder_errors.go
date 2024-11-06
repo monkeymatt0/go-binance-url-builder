@@ -8,9 +8,12 @@ import (
 
 const (
 	// Possible getHost function's errors
-	MODE_ERROR             = "This mode does not exists"            // Wrong mode is typed
-	GET_HOST_SWITCH_FAILED = "switch in getHost func failed... :\\" // In some way switch failed, should never happen
+	MODE_ERROR        = "This mode does not exists"                     // Wrong mode is typed
+	ORDER_URL_ERROR   = "Error while creating the order endpoint URL"   // Wrong mode is typed
+	ACCOUNT_URL_ERROR = "Error while creating the account endpoint URL" // Wrong mode is typed
 )
 
 // MODE_ERROR can happen while calling getHost function
 var ModeError = errors.New(MODE_ERROR)
+var OrderURLError = errors.New(ORDER_URL_ERROR)
+var AccountURLError = errors.New(ACCOUNT_URL_ERROR)
