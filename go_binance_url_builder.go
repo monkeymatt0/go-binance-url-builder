@@ -2,14 +2,19 @@ package go_binance_url_builder
 
 import "strings"
 
+// @todo : This will be refactored in future
+
+// For now the only goal of this structure is to be used
+// as a single type of builder (HTTP or WEB SOCKET STREAM)
 type BinanceURLBuilder struct {
-	protocol string
-	host     string
-	version  string
+	protocol     string
+	host         string
+	version      string
+	pathFragment string
 }
 
-func (bub *BinanceURLBuilder) New(isWebSocket bool, mode string) error {
-	bub.SetProtocol(isWebSocket)
+func (bub *BinanceURLBuilder) New(isWebSocketStream bool, mode string) error {
+	bub.SetProtocol(isWebSocketStream)
 	err := bub.setHost(mode)
 	if err != nil {
 		return err
@@ -18,8 +23,8 @@ func (bub *BinanceURLBuilder) New(isWebSocket bool, mode string) error {
 	return nil
 }
 
-func (bub *BinanceURLBuilder) SetProtocol(isWebSocket bool) {
-	if isWebSocket {
+func (bub *BinanceURLBuilder) SetProtocol(isWebSocketStream bool) {
+	if isWebSocketStream {
 		bub.protocol = strings.Join([]string{SECURE_WEB_SOCKET, "://"}, "")
 	} else {
 		bub.protocol = strings.Join([]string{SECURE_HTTP, "://"}, "")
@@ -36,7 +41,7 @@ func (bub *BinanceURLBuilder) setHost(mode string) error {
 		bub.host = strings.Join([]string{TEST_HOST}, "/")
 		return nil
 	case TEST_WSS:
-		bub.host = strings.Join([]string{TEST_WS_HOST}, "/")
+		bub.host = strings.Join([]string{TEST_WSS_HOST}, "/")
 		return nil
 	default:
 		return ModeError
@@ -48,10 +53,22 @@ func (bub *BinanceURLBuilder) GetBaseURLHTTP() string {
 }
 
 func (bub *BinanceURLBuilder) GetBaseURLWSS() string {
-	return strings.Join([]string{strings.Join([]string{bub.protocol, bub.host}, ""), WSS_API, bub.version}, "/")
+	return strings.Join([]string{strings.Join([]string{bub.protocol, bub.host}, ""), WSS_API}, "/")
 }
 
 // This will always set to v3 since is the most realiable and updated for now
 func (bub *BinanceURLBuilder) setVersion() {
 	bub.version = V3
+}
+
+func (bub *BinanceURLBuilder) GetAccountURL() string {
+	baseURL := bub.GetBaseURLHTTP()
+	accountURLSlice := []string{baseURL, bub.version, ACCOUNT}
+	return strings.Join(accountURLSlice, "/")
+}
+
+func (bub *BinanceURLBuilder) GetOrderURL() string {
+	baseURL := bub.GetBaseURLHTTP()
+	accountURLSlice := []string{baseURL, bub.version, ORDER}
+	return strings.Join(accountURLSlice, "/")
 }
