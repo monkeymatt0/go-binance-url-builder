@@ -7,8 +7,8 @@ import "strings"
 // For now the only goal of this structure is to be used
 // as a single type of builder (HTTP or WEB SOCKET STREAM)
 type BinanceURLBuilder struct {
-	protocol     string
-	host         string
+	Schema       string
+	Host         string
 	version      string
 	pathFragment string
 }
@@ -25,9 +25,9 @@ func (bub *BinanceURLBuilder) New(isWebSocketStream bool, mode string) error {
 
 func (bub *BinanceURLBuilder) SetProtocol(isWebSocketStream bool) {
 	if isWebSocketStream {
-		bub.protocol = strings.Join([]string{SECURE_WEB_SOCKET, "://"}, "")
+		bub.Schema = strings.Join([]string{SECURE_WEB_SOCKET, "://"}, "")
 	} else {
-		bub.protocol = strings.Join([]string{SECURE_HTTP, "://"}, "")
+		bub.Schema = strings.Join([]string{SECURE_HTTP, "://"}, "")
 	}
 }
 
@@ -35,13 +35,13 @@ func (bub *BinanceURLBuilder) SetProtocol(isWebSocketStream bool) {
 func (bub *BinanceURLBuilder) setHost(mode string) error {
 	switch mode {
 	case PRODUCTION:
-		bub.host = strings.Join([]string{PRODUCTION_HOST}, "/")
+		bub.Host = strings.Join([]string{PRODUCTION_HOST}, "/")
 		return nil
 	case TEST:
-		bub.host = strings.Join([]string{TEST_HOST}, "/")
+		bub.Host = strings.Join([]string{TEST_HOST}, "/")
 		return nil
 	case TEST_WSS:
-		bub.host = strings.Join([]string{TEST_WSS_HOST}, "/")
+		bub.Host = strings.Join([]string{TEST_WSS_HOST}, "/")
 		return nil
 	default:
 		return ModeError
@@ -49,11 +49,11 @@ func (bub *BinanceURLBuilder) setHost(mode string) error {
 }
 
 func (bub *BinanceURLBuilder) GetBaseURLHTTP() string {
-	return strings.Join([]string{strings.Join([]string{bub.protocol, bub.host}, ""), API}, "/")
+	return strings.Join([]string{strings.Join([]string{bub.Schema, bub.Host}, ""), API}, "/")
 }
 
 func (bub *BinanceURLBuilder) GetBaseURLWSS() string {
-	return strings.Join([]string{strings.Join([]string{bub.protocol, bub.host}, ""), WSS_API}, "/")
+	return strings.Join([]string{strings.Join([]string{bub.Schema, bub.Host}, ""), WSS_API}, "/")
 }
 
 // This will always set to v3 since is the most realiable and updated for now
